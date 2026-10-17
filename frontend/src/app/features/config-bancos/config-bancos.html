@@ -1,0 +1,51 @@
+<po-page-default p-title="Configurações · Bancos de Dados">
+  <div class="carregamento-wrap">
+  <po-loading-overlay *ngIf="carregando" p-text="Carregando..."></po-loading-overlay>
+
+  <po-info *ngIf="erro" p-label="Erro" [p-value]="erro"></po-info>
+
+  <ng-container *ngIf="!carregando">
+    <div class="secao-header">
+      <h3 class="secao">Banco de Dados de Origem (ERP Protheus)</h3>
+      <po-button p-label="Testar Conexão" p-kind="secondary" [p-loading]="testando.origem" (p-click)="testarConexao('origem')"></po-button>
+    </div>
+    <div class="grid">
+      <po-input name="origem-server" p-label="Servidor (IP,Porta ou Host)" [(ngModel)]="origem.server" [p-required]="true"></po-input>
+      <po-input name="origem-port" p-label="Porta Padrão" [(ngModel)]="origem.port"></po-input>
+      <po-input name="origem-database" p-label="Nome do Banco" [(ngModel)]="origem.database" [p-required]="true"></po-input>
+      <po-input name="origem-username" p-label="Usuário SQL Server" [(ngModel)]="origem.username" [p-required]="true"></po-input>
+      <po-password name="origem-password" p-label="Senha SQL Server" [(ngModel)]="origem.password"></po-password>
+      <po-input name="origem-driver" p-label="Driver SQL Server" [(ngModel)]="origem.driver"></po-input>
+    </div>
+
+    <po-divider></po-divider>
+
+    <div class="secao-header">
+      <h3 class="secao">Banco de Dados de Destino (BI Data Warehouse)</h3>
+      <po-button p-label="Testar Conexão" p-kind="secondary" [p-loading]="testando.destino" (p-click)="testarConexao('destino')"></po-button>
+    </div>
+    <div class="grid">
+      <po-input name="destino-server" p-label="Servidor (IP\Instância ou Host)" [(ngModel)]="destino.server" [p-required]="true"></po-input>
+      <po-input name="destino-port" p-label="Porta Padrão" [(ngModel)]="destino.port"></po-input>
+      <po-input name="destino-database" p-label="Nome do Banco" [(ngModel)]="destino.database" [p-required]="true"></po-input>
+      <po-input name="destino-username" p-label="Usuário SQL Server" [(ngModel)]="destino.username" [p-required]="true"></po-input>
+      <po-password name="destino-password" p-label="Senha SQL Server" [(ngModel)]="destino.password"></po-password>
+      <po-input name="destino-driver" p-label="Driver SQL Server" [(ngModel)]="destino.driver"></po-input>
+    </div>
+
+    <po-divider></po-divider>
+
+    <h3 class="secao">Opções Gerais de Performance e Manutenção</h3>
+    <div class="grid">
+      <po-number name="cfg-batch" p-label="Tamanho do Lote (batch_size)" [(ngModel)]="geral.batch_size" [p-min]="1"></po-number>
+      <po-number name="cfg-workers" p-label="Workers Paralelos (Threads)" [(ngModel)]="geral.max_workers" [p-min]="1"></po-number>
+      <po-number name="cfg-retention" p-label="Retenção de Logs (Dias)" [(ngModel)]="geral.dias_retencao_logs" [p-min]="1"></po-number>
+      <po-number name="cfg-retries" p-label="Tentativas de Conexão (Retry)" [(ngModel)]="geral.dias_retry_attempts" [p-min]="1"></po-number>
+    </div>
+
+    <div class="acoes-finais">
+      <po-button p-label="Salvar Configurações" [p-loading]="salvando" (p-click)="salvar()"></po-button>
+    </div>
+  </ng-container>
+  </div>
+</po-page-default>

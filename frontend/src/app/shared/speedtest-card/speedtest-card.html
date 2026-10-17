@@ -1,0 +1,26 @@
+<div class="speed-card">
+  <div class="speed-header">
+    <span class="speed-title">Velocidade da Internet do Servidor</span>
+    <po-button p-label="Testar agora" p-size="small" [p-disabled]="rodando" (p-click)="testar.emit()"></po-button>
+  </div>
+
+  <div class="speed-hero">
+    <span class="speed-value" [class.pulsando]="rodando">{{ displayValue | number: '1.0-1' }}</span>
+    <span class="speed-unit">Mbps</span>
+  </div>
+
+  <div class="speed-status" *ngIf="rodando">{{ faseTexto }}</div>
+
+  <ng-container *ngIf="!rodando">
+    <div class="speed-sub" *ngIf="ultimoResultado && !ultimoResultado.error">
+      ↓ {{ ultimoResultado.download_mbps ?? '-' }} Mbps &nbsp;·&nbsp; ↑ {{ ultimoResultado.upload_mbps ?? '-' }} Mbps &nbsp;·&nbsp; Ping {{ ultimoResultado.ping_ms ?? '-' }} ms
+    </div>
+    <div class="speed-sub erro" *ngIf="ultimoResultado?.error">
+      Falha na última medição: {{ ultimoResultado?.error }}
+    </div>
+    <div class="speed-sub" *ngIf="!ultimoResultado">
+      Nenhuma medição ainda. Clique em "Testar agora".
+    </div>
+    <div class="speed-meta" *ngIf="ultimoResultado">{{ ultimoResultado.timestamp }} · {{ origemTexto }}</div>
+  </ng-container>
+</div>

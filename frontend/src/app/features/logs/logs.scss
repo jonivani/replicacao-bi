@@ -1,0 +1,47 @@
+.secao {
+  font-size: 13px;
+  font-weight: 600;
+  color: #6c7787;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 12px;
+}
+
+.grid-logs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.log-viewer {
+  background-color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.log-viewer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+
+  .titulo {
+    font-size: 14px;
+    font-weight: 700;
+  }
+}
+
+.terminal {
+  background-color: #0b1120;
+  color: #10b981;
+  border-radius: 8px;
+  padding: 16px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  height: 400px;
+  overflow-y: auto;
+  white-space: pre-wrap;
+  margin: 0;
+}

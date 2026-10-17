@@ -1,0 +1,5 @@
+# Dependências da edição pública Angular + FastAPI (Python 3.10+)
+pyodbc>=4.0.39
+psutil>=5.9.0
+fastapi>=0.115.0
+uvicorn[standard]>=0.30.0

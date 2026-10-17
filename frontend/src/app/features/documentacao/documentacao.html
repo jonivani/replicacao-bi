@@ -1,0 +1,43 @@
+<po-page-default p-title="Documentação">
+  <div class="carregamento-wrap" [attr.aria-busy]="carregando">
+    <po-loading-overlay *ngIf="carregando" p-text="Carregando documentação..."></po-loading-overlay>
+
+    <div *ngIf="erro" class="doc-erro" role="alert">
+      <po-info p-label="Não foi possível carregar o manual" [p-value]="erro"></po-info>
+      <po-button p-label="Tentar novamente" p-kind="secondary" (p-click)="carregar()"></po-button>
+    </div>
+
+    <ng-container *ngIf="!carregando && !erro">
+      <header class="doc-abertura">
+        <span class="doc-etiqueta">JP CODE CRAFT · GUIA DA APLICAÇÃO</span>
+        <h2>Da configuração à operação diária.</h2>
+        <p>Consulte os recursos de cada tela, entenda os tipos de carga e encontre orientações para resolver problemas.</p>
+      </header>
+
+      <div class="doc-ferramentas">
+        <po-input name="busca-documentacao" p-label="Buscar no manual" p-placeholder="Ex.: SMTP, duplicados, carga completa..."
+          [(ngModel)]="busca" (ngModelChange)="filtrar()"></po-input>
+        <po-button *ngIf="busca" p-label="Limpar busca" p-kind="tertiary" (p-click)="limparBusca()"></po-button>
+        <po-button p-label="Atualizar manual" p-kind="secondary" (p-click)="carregar()"></po-button>
+      </div>
+      <p class="doc-contagem" aria-live="polite">{{ secoesFiltradas.length }} de {{ secoes.length }} assuntos{{ busca ? ' encontrados para a busca.' : ' disponíveis.' }}</p>
+
+      <div class="doc-layout" [class.doc-sem-indice]="!secoesFiltradas.length">
+        <nav class="doc-indice" aria-label="Assuntos do manual" *ngIf="secoesFiltradas.length">
+          <h3>Neste manual</h3>
+          <button *ngFor="let secao of secoesFiltradas" type="button" (click)="navegar(secao.id)">{{ secao.titulo }}</button>
+        </nav>
+        <div class="doc-leitura">
+          <div class="doc-conteudo doc-introducao" *ngIf="!busca" [innerHTML]="introducaoHtml"></div>
+          <section class="doc-conteudo doc-secao" *ngFor="let secao of secoesFiltradas"
+            [id]="secao.id" [attr.aria-label]="secao.titulo" tabindex="-1" [innerHTML]="secao.html"></section>
+          <div class="doc-vazio" *ngIf="!secoesFiltradas.length">
+            <h3>Nenhum assunto encontrado</h3>
+            <p>Tente o nome de uma tela, uma tabela ou termos como “DIFF”, “e-mail” e “servidor”.</p>
+            <po-button p-label="Ver todo o manual" p-kind="secondary" (p-click)="limparBusca()"></po-button>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</po-page-default>

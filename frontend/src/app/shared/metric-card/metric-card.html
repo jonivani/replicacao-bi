@@ -1,0 +1,6 @@
+<div class="metric-card">
+  <div class="metric-title">{{ titulo }}</div>
+  <div class="metric-value" [ngClass]="variante">{{ valor }}</div>
+  <div class="metric-sub" *ngIf="subtitulo">{{ subtitulo }}</div>
+  <ng-content></ng-content>
+</div>

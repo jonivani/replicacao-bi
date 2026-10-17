@@ -1,0 +1,33 @@
+<po-page-default p-title="Configurações · Tabelas">
+  <div class="carregamento-wrap">
+  <po-loading-overlay *ngIf="carregando" p-text="Carregando..."></po-loading-overlay>
+
+  <po-info *ngIf="erro" p-label="Erro" [p-value]="erro"></po-info>
+
+  <ng-container *ngIf="!carregando">
+    <h3 class="secao">Mapeamento Dinâmico de Tabelas Protheus</h3>
+    <p class="dica">
+      Adicione uma tabela e marque em qual(is) modo(s) ela deve ser processada. Uma tabela pode estar em DIFF, em
+      COMPLETO, ou nos dois ao mesmo tempo.
+    </p>
+
+    <div class="form-add">
+      <po-input
+        name="nova-tabela"
+        class="input-tabela"
+        p-label="Nome da Tabela"
+        placeholder="Ex: SE4010"
+        [(ngModel)]="novaTabela"
+      ></po-input>
+      <po-checkbox name="nova-diff" p-label="DIFF" [(ngModel)]="novaDiff"></po-checkbox>
+      <po-checkbox name="nova-completo" p-label="COMPLETO" [(ngModel)]="novaCompleto"></po-checkbox>
+      <po-button p-label="Adicionar" p-icon="an an-plus" (p-click)="adicionar()"></po-button>
+      <po-button class="botao-salvar" p-label="Salvar Configurações" [p-loading]="salvando" (p-click)="salvar()"></po-button>
+    </div>
+
+    <po-divider></po-divider>
+
+    <po-table [p-items]="linhas" [p-columns]="colunas" [p-actions]="acoes" [p-height]="450"></po-table>
+  </ng-container>
+  </div>
+</po-page-default>

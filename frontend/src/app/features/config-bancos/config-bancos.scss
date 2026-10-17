@@ -1,0 +1,43 @@
+.carregamento-wrap {
+  position: relative;
+  min-height: 60vh;
+}
+
+.secao {
+  font-size: 13px;
+  font-weight: 600;
+  color: #6c7787;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0 0 12px;
+}
+
+.secao-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  gap: 16px;
+
+  .secao {
+    margin: 0;
+  }
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-bottom: 8px;
+}
+
+po-divider {
+  display: block;
+  margin: 24px 0;
+}
+
+.acoes-finais {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 8px;
+}

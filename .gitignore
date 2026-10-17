@@ -1,0 +1,48 @@
+# Credenciais e configurações locais
+config/*.ini
+!config/config.example.ini
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.pfx
+*.p12
+
+# Dados de operação e ambientes
+/logs/
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.log
+*.bak
+*.backup
+*.bkp
+*.dump
+*.db
+*.sqlite*
+*.mdf
+*.ldf
+*.zip
+
+# Frontend e resultados locais
+node_modules/
+dist/
+.angular/
+coverage/
+out-tsc/
+*.tsbuildinfo
+npm-debug.log*
+test-documentacao.log
+
+# Ferramentas e editor
+.git/
+.codex/
+.agents/
+.aws/
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+

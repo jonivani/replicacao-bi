@@ -1,0 +1,50 @@
+.carregamento-wrap {
+  position: relative;
+  min-height: 60vh;
+}
+
+.speed-wrap {
+  margin-bottom: 24px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.secao {
+  font-size: 13px;
+  font-weight: 600;
+  color: #6c7787;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 12px;
+}
+
+po-progress {
+  display: block;
+  margin-top: 12px;
+}
+
+.secao-espacada {
+  margin-top: 24px;
+}
+
+/* Réplica de `.metric-sub` do metric-card.scss — necessária porque conteúdo projetado via
+   `<ng-content>` (essas linhas extras dos cards de Validação/Auditoria) recebe o encapsulamento
+   de estilo do componente PAI (esta tela), não do `app-metric-card`, então as regras do
+   metric-card.scss não alcançam esse conteúdo. */
+.linha-extra {
+  font-size: 12px;
+  color: #6c7787;
+  margin-top: 6px;
+
+  &.success {
+    color: #0d8a4f;
+  }
+  &.failed {
+    color: #d0342c;
+  }
+}

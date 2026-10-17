@@ -1,0 +1,24 @@
+<po-page-default p-title="Gerenciador de Agendamentos do Windows">
+  <po-info *ngIf="erro" p-label="Erro" [p-value]="erro"></po-info>
+
+  <p class="dica">
+    Estas são as tarefas registradas no Agendador de Tarefas do Windows. Você pode pausar (desativar), retomar
+    (ativar) ou forçar a execução imediata sem precisar abrir o Prompt de Comando do servidor.
+  </p>
+
+  <po-table [p-items]="linhas" [p-columns]="colunas" [p-actions]="acoes" [p-loading]="carregando" [p-height]="400"></po-table>
+
+  <ng-container *ngIf="tarefaMonitorada">
+    <h3 class="secao">Log de Execução em Tempo Real: {{ tarefaMonitorada }}</h3>
+
+    <po-progress
+      *ngIf="progressoLog as p"
+      class="progresso"
+      [p-value]="(p.atual / p.total) * 100"
+      [p-text]="'Processando tabelas (' + p.atual + ' de ' + p.total + ')...'"
+    ></po-progress>
+
+    <pre class="terminal">{{ logAoVivo?.content || 'Aguardando novas linhas de log...' }}</pre>
+    <div class="atualizado" *ngIf="logAoVivo?.name">{{ logAoVivo?.name }} · atualizado {{ logAoVivo?.mtime }}</div>
+  </ng-container>
+</po-page-default>

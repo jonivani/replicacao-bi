@@ -1,0 +1,78 @@
+<po-page-default p-title="Auditoria de Integridade de Dados">
+  <div class="cabecalho">
+    <p>Compare a contagem de registros em tempo real entre o ERP (Origem) e o BI (Destino).</p>
+    <div class="acoes">
+      <po-button p-label="Auditar Todas" [p-disabled]="rodando" (p-click)="auditarTodas()"></po-button>
+      <po-button p-label="Auditar Selecionadas" p-kind="secondary" [p-disabled]="rodando" (p-click)="auditarSelecionadas()"></po-button>
+      <po-button
+        p-label="Cancelar"
+        [p-danger]="true"
+        *ngIf="rodando"
+        (p-click)="cancelar()"
+      ></po-button>
+    </div>
+  </div>
+
+  <div class="selecao-filtro">
+    <po-multiselect
+      class="multiselect-tabelas"
+      name="tabelas-auditoria"
+      p-label="Tabelas (para 'Auditar Selecionadas')"
+      p-placeholder="Nenhuma selecionada"
+      [p-options]="tabelasDisponiveis"
+      [(ngModel)]="tabelasSelecionadas"
+      [p-disabled]="rodando"
+    ></po-multiselect>
+
+    <po-input
+      *ngIf="resultados.length > 0"
+      class="filtro"
+      p-label="Filtrar Resultados"
+      placeholder="Nome da tabela..."
+      [(ngModel)]="filtro"
+      (ngModelChange)="aplicarFiltro()"
+    ></po-input>
+  </div>
+
+  <po-progress
+    *ngIf="rodando"
+    class="progresso"
+    [p-value]="progresso"
+    [p-text]="'Validando tabelas (' + processadas + ' de ' + total + ')...'"
+  ></po-progress>
+
+  <po-progress
+    *ngIf="removendoDuplicados"
+    class="progresso"
+    [p-value]="(removendoAtual / removendoTotal) * 100"
+    [p-text]="'Removendo duplicados (' + removendoAtual + ' de ' + removendoTotal + ')...'"
+  ></po-progress>
+
+  <po-info *ngIf="erro" p-label="Erro" [p-value]="erro"></po-info>
+
+  <div class="filtro-resumo" *ngIf="resultados.length > 0">
+    <div class="contadores">
+      <span>Total: <strong>{{ contagem.total }}</strong></span>
+      <span class="ok">OK: <strong>{{ contagem.ok }}</strong></span>
+      <span class="divergente">Divergente: <strong>{{ contagem.divergente }}</strong></span>
+      <span class="duplicado">Com Duplicados: <strong>{{ contagem.duplicados }}</strong></span>
+      <span class="erro">Erro/Inexistente: <strong>{{ contagem.erro }}</strong></span>
+    </div>
+
+    <po-button
+      *ngIf="contagem.duplicados > 0"
+      p-label="Remover Duplicados de Todas as Tabelas"
+      [p-danger]="true"
+      [p-loading]="removendoDuplicados"
+      (p-click)="removerTodosDuplicados()"
+    ></po-button>
+  </div>
+
+  <po-table
+    [p-items]="resultadosFiltrados"
+    [p-columns]="colunas"
+    [p-actions]="acoes"
+    [p-loading]="rodando && resultados.length === 0"
+    [p-height]="500"
+  ></po-table>
+</po-page-default>

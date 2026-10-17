@@ -1,0 +1,21 @@
+<div class="po-wrapper">
+  <po-toolbar p-title="Replicação Dados · JP Code Craft"></po-toolbar>
+
+  <po-menu [p-menus]="menus">
+    <div *p-menu-header-template class="po-menu-header marca-app">
+      <a class="marca-link" href="https://jpcodecraft.com.br/" target="_blank" rel="noopener noreferrer" aria-label="JP Code Craft Solutions — abrir site em nova aba">
+        <img src="jp-code-craft-logo.png" alt="JP Code Craft Solutions" width="210" height="70">
+      </a>
+      <span class="texto-marca">Replicação Dados</span>
+    </div>
+  </po-menu>
+
+  <router-outlet></router-outlet>
+  <footer class="rodape-app">
+    <span class="rodape-produto">
+      <span>Replicação Dados <span aria-hidden="true">·</span> Protheus &amp; BI</span>
+      <span class="versao-app" [attr.aria-label]="'Versão da aplicação: ' + versao">v{{ versao }}</span>
+    </span>
+    <span>Desenvolvido por <a href="https://jpcodecraft.com.br/" target="_blank" rel="noopener noreferrer">JP Code Craft <span aria-hidden="true">↗</span></a></span>
+  </footer>
+</div>

@@ -1,0 +1,141 @@
+<po-page-default p-title="Painel Geral de Controle">
+  <div class="carregamento-wrap">
+  <po-loading-overlay *ngIf="!status" p-text="Carregando painel..."></po-loading-overlay>
+
+  <ng-container *ngIf="status">
+    <div class="speed-wrap">
+      <app-speedtest-card
+        [rodando]="speedtestAtivo?.running ?? false"
+        [valorAoVivo]="speedtestAtivo?.parcial_mbps ?? null"
+        [fase]="speedtestAtivo?.fase ?? null"
+        [ultimoResultado]="status.last_speedtest"
+        (testar)="dispararSpeedtest()"
+      ></app-speedtest-card>
+    </div>
+
+    <div class="grid">
+      <app-metric-card
+        titulo="Último Status DIFF"
+        [valor]="status.last_diff?.status ?? '-'"
+        [subtitulo]="status.last_diff?.data ?? '-'"
+        [variante]="status.last_diff ? (status.last_diff.status === 'SUCESSO' ? 'success' : 'failed') : undefined"
+      ></app-metric-card>
+
+      <app-metric-card
+        titulo="Último Status Completo"
+        [valor]="status.last_completo?.status ?? '-'"
+        [subtitulo]="status.last_completo?.data ?? '-'"
+        [variante]="status.last_completo ? (status.last_completo.status === 'SUCESSO' ? 'success' : 'failed') : undefined"
+      ></app-metric-card>
+
+      <app-metric-card
+        titulo="Registros Inseridos/Atualizados (DIFF)"
+        [valor]="(status.last_diff?.total_inseridos ?? 0) | number: '1.0-0'"
+        [subtitulo]="'Duração: ' + (status.last_diff?.duracao ?? '-')"
+        variante="info"
+      ></app-metric-card>
+
+      <app-metric-card
+        titulo="Tabelas com Erro"
+        [valor]="status.last_diff?.erros?.length ?? 0"
+        [subtitulo]="status.last_diff?.erros?.length ? ('Tabelas: ' + status.last_diff!.erros.join(', ')) : 'Nenhum erro registrado'"
+        [variante]="status.last_diff?.erros?.length ? 'failed' : undefined"
+      ></app-metric-card>
+    </div>
+
+    <h3 class="secao">Taxa de sucesso (últimos 7 dias)</h3>
+    <div class="grid">
+      <app-metric-card
+        titulo="DIFF"
+        [valor]="status.taxa_sucesso.diff.percentual !== null ? status.taxa_sucesso.diff.percentual + '%' : '-'"
+        [subtitulo]="status.taxa_sucesso.diff.sucesso + ' de ' + status.taxa_sucesso.diff.total + ' execuções'"
+      ></app-metric-card>
+      <app-metric-card
+        titulo="COMPLETO"
+        [valor]="status.taxa_sucesso.completo.percentual !== null ? status.taxa_sucesso.completo.percentual + '%' : '-'"
+        [subtitulo]="status.taxa_sucesso.completo.sucesso + ' de ' + status.taxa_sucesso.completo.total + ' execuções'"
+      ></app-metric-card>
+    </div>
+
+    <h3 class="secao">Integridade e Saúde do Pipeline</h3>
+    <div class="grid">
+      <app-metric-card
+        titulo="Última Validação de Integridade (06:00)"
+        [valor]="statusValidacao(status.last_validacao?.status_geral).rotulo"
+        [variante]="statusValidacao(status.last_validacao?.status_geral).classe || undefined"
+      >
+        <ng-container *ngIf="status.last_validacao as v; else semValidacao">
+          <div class="linha-extra">
+            {{ v.total_tabelas }} tabela(s) · {{ v.tabelas_divergentes }} divergente(s) ·
+            {{ v.tabelas_corrigidas }} corrigida(s) automaticamente · {{ v.duplicados_removidos }} duplicado(s) removido(s)
+          </div>
+          <div class="linha-extra" [ngClass]="v.email_enviado === true ? 'success' : v.email_enviado === false ? 'failed' : ''">
+            <ng-container *ngIf="v.email_enviado === true">E-mail de alerta: enviado com sucesso</ng-container>
+            <ng-container *ngIf="v.email_enviado === false">E-mail de alerta: FALHOU{{ v.email_erro ? ' — ' + v.email_erro : '' }}</ng-container>
+            <ng-container *ngIf="v.email_enviado == null">-</ng-container>
+          </div>
+          <div class="linha-extra">{{ v.data_execucao ? 'Execução: ' + v.data_execucao : '-' }}</div>
+        </ng-container>
+        <ng-template #semValidacao>
+          <div class="linha-extra">
+            {{ status.last_validacao?.error ? 'Erro ao ler resumo: ' + status.last_validacao?.error
+              : 'Nenhuma validação completa registrada ainda (aguarde o job das 06:00 ou rode manualmente).' }}
+          </div>
+        </ng-template>
+      </app-metric-card>
+
+      <app-metric-card
+        titulo="Última Auditoria Manual (Aba Auditoria)"
+        [valor]="status.ultima_auditoria ? (status.ultima_auditoria.duplicados_registros | number: '1.0-0') : '-'"
+        [variante]="status.ultima_auditoria ? (status.ultima_auditoria.duplicados_registros > 0 ? 'warning' : 'success') : undefined"
+      >
+        <div class="linha-extra">
+          <ng-container *ngIf="status.ultima_auditoria as a; else semAuditoria">
+            {{ a.tabelas_duplicadas }} tabela(s) com duplicados · {{ a.tabelas_divergentes }} divergente(s) ·
+            {{ a.registros_deletados_bi | number: '1.0-0' }} registro(s) com delete lógico no BI
+          </ng-container>
+          <ng-template #semAuditoria>Nenhuma auditoria rodada ainda nesta sessão do servidor.</ng-template>
+        </div>
+        <div class="linha-extra">{{ status.ultima_auditoria?.quando ? 'Auditoria de: ' + status.ultima_auditoria?.quando : '-' }}</div>
+      </app-metric-card>
+
+      <app-metric-card titulo="Frescor dos Dados (DIFF)" [valor]="frescorTexto" [subtitulo]="frescorSubtitulo" [variante]="frescorClasse || undefined"></app-metric-card>
+
+      <app-metric-card titulo="Próxima Execução Agendada" [valor]="proximaExecucaoTexto" [subtitulo]="proximaExecucaoSubtitulo" variante="info"></app-metric-card>
+    </div>
+
+    <ng-container *ngIf="status.server_health as saude">
+      <h3 class="secao">Saúde do Servidor</h3>
+      <div class="grid">
+        <app-metric-card titulo="CPU" [valor]="saude.cpu_percent + '%'" [variante]="corPorUso(saude.cpu_percent)">
+          <po-progress [p-value]="saude.cpu_percent" [p-status]="statusProgresso(saude.cpu_percent)"></po-progress>
+        </app-metric-card>
+
+        <app-metric-card
+          titulo="Memória RAM"
+          [valor]="saude.memoria.percent + '%'"
+          [subtitulo]="saude.memoria.usado_gb + ' GB de ' + saude.memoria.total_gb + ' GB'"
+          [variante]="corPorUso(saude.memoria.percent)"
+        >
+          <po-progress [p-value]="saude.memoria.percent" [p-status]="statusProgresso(saude.memoria.percent)"></po-progress>
+        </app-metric-card>
+
+        <app-metric-card
+          titulo="Disco"
+          [valor]="saude.disco.percent + '%'"
+          [subtitulo]="saude.disco.usado_gb + ' GB usados · ' + saude.disco.livre_gb + ' GB livres'"
+          [variante]="corPorUso(saude.disco.percent)"
+        >
+          <po-progress [p-value]="saude.disco.percent" [p-status]="statusProgresso(saude.disco.percent)"></po-progress>
+        </app-metric-card>
+      </div>
+    </ng-container>
+
+    <h3 class="secao">Volumetria por Tabela (Carga Incremental Recente)</h3>
+    <po-table [p-items]="volumetria" [p-columns]="colunasVolumetria" [p-height]="350"></po-table>
+
+    <h3 class="secao secao-espacada">Tabelas Mais Lentas (Carga Completa Recente)</h3>
+    <po-table [p-items]="tabelasMaisLentas" [p-columns]="colunasLentas" [p-height]="350"></po-table>
+  </ng-container>
+  </div>
+</po-page-default>

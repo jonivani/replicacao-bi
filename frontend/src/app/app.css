@@ -1,0 +1,98 @@
+:host {
+  display: block;
+}
+
+.marca-app {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px 8px;
+}
+
+.marca-link {
+  display: block;
+  max-width: 100%;
+}
+
+.marca-link img {
+  display: block;
+  width: 190px;
+  max-width: 100%;
+  height: auto;
+}
+
+.texto-marca {
+  border-top: 1px solid #d5dbd2;
+  padding-top: 12px;
+  width: 100%;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #526059;
+}
+
+.rodape-app {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 5;
+  min-height: var(--jp-footer-height);
+  padding: 14px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px 24px;
+  background: #eeefe8;
+  border-top: 1px solid #d5dbd2;
+  color: #526059;
+  font-size: 12px;
+  line-height: 20px;
+}
+
+.rodape-produto {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+}
+
+.versao-app {
+  padding: 0 7px;
+  border: 1px solid #d5dbd2;
+  border-radius: 3px;
+  color: #183b32;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.rodape-app a {
+  color: #183b32;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.rodape-app a:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.marca-link:focus-visible,
+.rodape-app a:focus-visible {
+  outline: 2px solid #b87535;
+  outline-offset: 4px;
+}
+
+@media (max-width: 600px) {
+  .rodape-app {
+    flex-direction: column;
+    justify-content: center;
+    gap: 0;
+    padding: 10px 12px;
+    text-align: center;
+  }
+}

@@ -1,0 +1,28 @@
+<po-page-default p-title="Histórico de Logs">
+  <po-info *ngIf="erro" p-label="Erro" [p-value]="erro"></po-info>
+
+  <div class="grid-logs">
+    <div>
+      <h3 class="secao">Logs de Carga DIFF (Incremental)</h3>
+      <po-table [p-items]="linhasDiff" [p-columns]="colunas" [p-actions]="acoes" [p-loading]="carregando" [p-height]="300"></po-table>
+    </div>
+
+    <div>
+      <h3 class="secao">Logs de Carga Completa (COMPLETO)</h3>
+      <po-table [p-items]="linhasCompleto" [p-columns]="colunas" [p-actions]="acoes" [p-loading]="carregando" [p-height]="300"></po-table>
+    </div>
+
+    <div>
+      <h3 class="secao">Logs de Validação de Integridade</h3>
+      <po-table [p-items]="linhasValidacao" [p-columns]="colunas" [p-actions]="acoes" [p-loading]="carregando" [p-height]="300"></po-table>
+    </div>
+  </div>
+
+  <div class="log-viewer" *ngIf="logAberto">
+    <div class="log-viewer-header">
+      <span class="titulo">Visualizador de Log: logs/{{ logAberto.modo }}/{{ logAberto.name }}</span>
+      <po-button p-label="Fechar" p-kind="secondary" (p-click)="fecharLog()"></po-button>
+    </div>
+    <pre class="terminal">{{ carregandoConteudo ? 'Carregando arquivo de log...' : logAberto.content }}</pre>
+  </div>
+</po-page-default>

@@ -1,0 +1,49 @@
+/* Identidade JP Code Craft: marfim, verde profundo e sálvia.
+   Fonte: https://jpcodecraft.com.br/assets/css/style.css (identidade V2). */
+:root {
+  --jp-footer-height: 52px;
+}
+
+body {
+  margin: 0;
+  background: #f7f7f2;
+}
+
+.po-wrapper .po-page {
+  background: #f7f7f2;
+}
+
+/* O PO UI calcula a altura da área rolável; a reserva permite ler a última
+   linha e alcançar as ações acima do rodapé fixo em todas as rotas. */
+.po-wrapper .po-page-content {
+  padding-bottom: calc(var(--jp-footer-height) + 24px);
+}
+
+.po-wrapper .po-menu {
+  bottom: var(--jp-footer-height);
+  height: calc(100dvh - var(--jp-footer-height));
+}
+
+po-menu {
+  --background-color: #eeefe8;
+  --border-color-menu: #d5dbd2;
+  --border-radius: 0;
+}
+
+po-toolbar {
+  --color-toolbar-background-color-toolbar: #f7f7f2;
+  --color-toolbar-color-title: #183b32;
+  --color-toolbar-border-color-separator: #d5dbd2;
+}
+
+.po-page-header-title {
+  font-family: Georgia, 'Times New Roman', serif;
+  color: #183b32;
+  font-weight: 400;
+}
+
+@media (max-width: 600px) {
+  :root {
+    --jp-footer-height: 84px;
+  }
+}

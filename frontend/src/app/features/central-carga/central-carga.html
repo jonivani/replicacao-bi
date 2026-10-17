@@ -1,0 +1,89 @@
+<po-page-default p-title="Central de Execuções e Disparo Manual">
+  <div class="carregamento-wrap">
+  <po-loading-overlay *ngIf="carregando" p-text="Carregando..."></po-loading-overlay>
+
+  <po-info *ngIf="erro" p-label="Erro" [p-value]="erro"></po-info>
+
+  <div class="acoes-grid">
+    <div class="action-card">
+      <div class="action-title diff">MODO DIFF</div>
+      <div class="action-desc">Sincroniza apenas registros novos e alterações recentes desde a última carga.</div>
+      <po-button p-label="Rodar Incremental" [p-disabled]="rodando || carregando" (p-click)="disparar('diff')"></po-button>
+    </div>
+
+    <div class="action-card">
+      <div class="action-title smart">SMART COMPLETO</div>
+      <div class="action-desc">Verifica contagens e estrutura. Recarrega apenas as tabelas divergentes, preparando uma cópia antes da troca.</div>
+      <po-button
+        p-label="Rodar Inteligente"
+        p-kind="secondary"
+        [p-disabled]="rodando || carregando"
+        (p-click)="disparar('completo', true)"
+      ></po-button>
+    </div>
+
+    <div class="action-card">
+      <div class="action-title completo">COMPLETO CEGO</div>
+      <div class="action-desc">Recarrega integralmente as tabelas mapeadas em COMPLETO, preparando uma cópia antes de substituir o destino.</div>
+      <po-button
+        p-label="Forçar Recarga Total"
+        [p-danger]="true"
+        [p-disabled]="rodando || carregando"
+        (p-click)="disparar('completo')"
+      ></po-button>
+    </div>
+
+    <div class="action-card">
+      <div class="action-title validador">VALIDADOR</div>
+      <div class="action-desc">Valida a integridade em modo somente análise, sem correções automáticas, e tenta enviar o relatório por e-mail.</div>
+      <po-button
+        p-label="Roda Auditoria"
+        p-kind="tertiary"
+        [p-disabled]="rodando || carregando"
+        (p-click)="disparar('validador')"
+      ></po-button>
+    </div>
+  </div>
+
+  <div class="selecao-tabelas">
+    <h3 class="secao">Replicar Tabelas Específicas (Opcional)</h3>
+    <div class="selecao-linha">
+      <po-multiselect
+        class="multiselect-tabelas"
+        name="tabelas-especificas"
+        p-label="Tabelas"
+        p-placeholder="Nenhuma selecionada (replicar todas)"
+        [p-options]="tabelasDisponiveis"
+        [(ngModel)]="tabelasSelecionadas"
+      ></po-multiselect>
+
+      <po-select
+        class="select-modo"
+        name="modo-especifico"
+        p-label="Modo de Carga"
+        [p-options]="opcoesModo"
+        [ngModel]="modoSelecionadas"
+        (ngModelChange)="modoSelecionadas = $event"
+      ></po-select>
+
+      <po-button p-label="Disparar Selecionadas" [p-disabled]="rodando || carregando" (p-click)="dispararSelecionadas()"></po-button>
+    </div>
+  </div>
+
+  <div class="console" *ngIf="runAtivo">
+    <div class="console-header">
+      <span class="titulo">Console de Saída em Tempo Real</span>
+      <po-tag [p-value]="rodando ? 'Rodando' : 'Ocioso'" [p-color]="rodando ? 'color-08' : 'color-05'"></po-tag>
+    </div>
+
+    <po-progress
+      *ngIf="rodando && runAtivo.progress as p"
+      class="progresso"
+      [p-value]="progressoPercent"
+      [p-text]="'Processando tabelas (' + p.atual + ' de ' + p.total + ')...'"
+    ></po-progress>
+
+    <pre class="terminal">{{ runAtivo.output || 'Console ocioso. Inicie um processo para receber logs.' }}</pre>
+  </div>
+  </div>
+</po-page-default>

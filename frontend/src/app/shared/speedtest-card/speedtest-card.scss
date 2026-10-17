@@ -1,0 +1,82 @@
+.speed-card {
+  background-color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+  padding: 24px;
+  text-align: center;
+}
+
+.speed-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-align: left;
+  margin-bottom: 8px;
+}
+
+.speed-title {
+  font-size: 12px;
+  color: #6c7787;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+}
+
+.speed-hero {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 8px;
+  margin: 16px 0 4px;
+}
+
+.speed-value {
+  font-size: 64px;
+  font-weight: 700;
+  color: #0768d1;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.speed-value.pulsando {
+  animation: speed-pulso 1.2s ease-in-out infinite;
+}
+
+@keyframes speed-pulso {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.55;
+  }
+}
+
+.speed-unit {
+  font-size: 20px;
+  font-weight: 600;
+  color: #6c7787;
+}
+
+.speed-status {
+  font-size: 13px;
+  color: #0768d1;
+  font-weight: 600;
+  margin-top: 4px;
+}
+
+.speed-sub {
+  font-size: 13px;
+  color: #1a2733;
+  margin-top: 8px;
+}
+
+.speed-sub.erro {
+  color: #d0342c;
+}
+
+.speed-meta {
+  font-size: 11px;
+  color: #6c7787;
+  margin-top: 4px;
+}

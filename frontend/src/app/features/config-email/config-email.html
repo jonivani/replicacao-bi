@@ -1,0 +1,40 @@
+<po-page-default p-title="Configurações · E-mail">
+  <div class="carregamento-wrap">
+  <po-loading-overlay *ngIf="carregando" p-text="Carregando..."></po-loading-overlay>
+
+  <po-info *ngIf="erro" p-label="Erro" [p-value]="erro"></po-info>
+
+  <ng-container *ngIf="!carregando">
+    <div class="secao-header">
+      <h3 class="secao">Serviço de E-mail (SMTP Notificações)</h3>
+      <po-button p-label="Testar SMTP" p-kind="secondary" [p-loading]="testando" (p-click)="testarConexao()"></po-button>
+    </div>
+    <div class="grid">
+      <po-input name="smtp-server" p-label="Servidor SMTP" [(ngModel)]="email.servidor_smtp" [p-required]="true"></po-input>
+      <po-input name="smtp-port" p-label="Porta SMTP" [(ngModel)]="email.porta_smtp" [p-required]="true"></po-input>
+      <po-input name="smtp-from" p-label="E-mail do Remetente" [(ngModel)]="email.remetente" [p-required]="true"></po-input>
+      <po-input name="smtp-user" p-label="Usuário de Login SMTP" [(ngModel)]="email.usuario" [p-required]="true"></po-input>
+      <po-password name="smtp-pass" p-label="Senha SMTP / App Password" [(ngModel)]="email.senha"></po-password>
+    </div>
+
+    <po-divider></po-divider>
+
+    <h3 class="secao">Destinatários das Notificações</h3>
+    <p class="dica">Adicione os e-mails que devem receber os alertas de validação de integridade.</p>
+
+    <div class="form-add">
+      <po-input
+        name="novo-destinatario"
+        class="input-email"
+        p-label="E-mail"
+        placeholder="Ex: nome@empresa.com.br"
+        [(ngModel)]="novoDestinatario"
+      ></po-input>
+      <po-button p-label="Adicionar" p-icon="an an-plus" (p-click)="adicionarDestinatario()"></po-button>
+      <po-button class="botao-salvar" p-label="Salvar Configurações" [p-loading]="salvando" (p-click)="salvar()"></po-button>
+    </div>
+
+    <po-table [p-items]="linhasDestinatarios" [p-columns]="colunas" [p-actions]="acoes" [p-height]="300"></po-table>
+  </ng-container>
+  </div>
+</po-page-default>
